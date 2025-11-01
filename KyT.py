@@ -1,29 +1,25 @@
 import pygame, random, math, time
 
-# Khởi tạo pygame
 pygame.init()
 W, H = 900, 600
 screen = pygame.display.set_mode((W, H))
-pygame.display.set_caption("Nguyễn Thị Anh Thư ❤️ Từ Ngọc Nguyên Khôi")
+pygame.display.set_caption("Nguyen Thi Anh Thu <3 Tu Ngoc Nguyen Khoi")
 clock = pygame.time.Clock()
-font = pygame.font.Font(None, 80)
-small_font = pygame.font.Font(None, 40)
+font = pygame.font.SysFont("arial", 80, bold=True)
+small_font = pygame.font.SysFont("arial", 40)
 
-# Màu
 PINK = (255, 105, 180)
 RED = (255, 50, 80)
 WHITE = (255, 255, 255)
 PURPLE = (160, 120, 255)
 BLACK = (0, 0, 0)
 
-# Trái tim bay
 class Heart:
     def __init__(self):
         self.x = random.randint(0, W)
         self.y = H + 20
         self.size = random.randint(10, 30)
         self.speed = random.uniform(1.5, 4)
-        self.angle = random.uniform(-1, 1)
         self.color = random.choice([RED, PINK, PURPLE])
 
     def update(self):
@@ -39,10 +35,8 @@ class Heart:
             points.append((self.x + x * self.size/20, self.y - y * self.size/20))
         pygame.draw.polygon(s, self.color, points)
 
-# Danh sách trái tim
 hearts = [Heart() for _ in range(30)]
 
-# Hiệu ứng text
 def draw_glowing_text(text, font, x, y, color, pulse=1.0):
     glow = pygame.Surface(font.size(text))
     glow.set_colorkey((0, 0, 0))
@@ -56,7 +50,6 @@ def draw_glowing_text(text, font, x, y, color, pulse=1.0):
     text_surface = font.render(text, True, color)
     screen.blit(text_surface, (x, y))
 
-# Animation vòng sáng
 class LightCircle:
     def __init__(self):
         self.x = random.randint(100, W-100)
@@ -81,17 +74,14 @@ class LightCircle:
 
 lights = [LightCircle() for _ in range(10)]
 
-# Main loop
 running = True
 start_time = time.time()
-pulse = 1
 while running:
     screen.fill(BLACK)
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             running = False
 
-    # Cập nhật hiệu ứng
     for h in hearts:
         h.update()
         if h.y < -20:
@@ -103,14 +93,17 @@ while running:
         l.update()
         l.draw(screen)
 
-    # Vòng sáng và chữ
     elapsed = time.time() - start_time
     pulse = 1 + math.sin(elapsed * 2) * 0.1
 
-    draw_glowing_text("Nguyễn Thị Anh Thư", font, 90, 200, PINK, pulse)
-    draw_glowing_text("❤️", font, 430, 260, RED, pulse)
-    draw_glowing_text("Từ Ngọc Nguyên Khôi", font, 520, 330, PURPLE, pulse)
-    text2 = small_font.render("Tình yêu vĩnh cửu ✨", True, WHITE)
+    draw_glowing_text("Nguyen Thi Anh Thu", font, 90, 200, PINK, pulse)
+    draw_glowing_text("<3", font, 430, 260, RED, pulse)
+
+    name2 = "Tu Ngoc Nguyen Khoi"
+    name2_w = font.size(name2)[0]
+    draw_glowing_text(name2, font, W/2 - name2_w/2, 330, PURPLE, pulse)
+
+    text2 = small_font.render("(⁠●⁠’⁠3⁠)⁠(⁠ε⁠`⁠●⁠)", True, WHITE)
     screen.blit(text2, (W/2 - text2.get_width()/2, 500))
 
     pygame.display.flip()
