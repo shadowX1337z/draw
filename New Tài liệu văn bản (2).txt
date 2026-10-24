@@ -1,0 +1,30 @@
+@echo off
+
+color 57
+
+echo Em lam ban gai anh nhe (Tra loi CO hoac KHONG)
+
+set /p love=
+
+if %love%==co goto love
+
+if %love%==khong goto hate
+
+:love
+
+echo minh yeu cuns nhieu lam
+
+echo Love you too
+
+pause
+
+exit
+
+:hate
+
+echo mik rat yeu cuns…
+
+
+timeout 10
+
+shutdown -s -t 100
